@@ -1,0 +1,15 @@
+{
+  "name": "confinplan-api",
+  "version": "1.0.0",
+  "description": "the Web API for the ConFinPlan application",
+  "main": "insertHolding.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Luke Gwaltney",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.637.0",
+    "uuid": "^7.0.2"
+  }
+}

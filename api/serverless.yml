@@ -1,0 +1,63 @@
+service: confinplan-api
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  apiKeys:
+    - '${self:service}-key'
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DeleteItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+      Resource: ${self:custom.holdingsLedgerArn}
+
+custom:
+  holdingsLedgerArn: ${ssm:/confinplan/${self:provider.stage}/holdings/ledger/arn}
+  holdingsLedgerName: ${ssm:/confinplan/${self:provider.stage}/holdings/ledger/name}
+
+functions:
+  delete-holdiing:
+    handler: src/deleteHolding.handler
+    environment:
+      holdingsLedger: ${self:custom.holdingsLedgerName}
+    events:
+      - http:
+          path: /api/v1/holdings/user/{userId}/holding/{holdingId}
+          method: delete
+          private: true
+          request:
+            parameters:
+              paths:
+                userId: true
+                holdingId: true
+  insert-holding:
+    handler: src/insertHolding.handler
+    environment:
+      holdingsLedger: ${self:custom.holdingsLedgerName}
+    events:
+      - http:
+          path: /api/v1/holdings/user/{userId}
+          method: put
+          private: true
+          request:
+            parameters:
+              paths:
+                userId: true
+  update-holding:
+    handler: src/updateHolding.handler
+    environment:
+      holdingsLedger: ${self:custom.holdingsLedgerName}
+    events:
+      - http:
+          path: /api/v1/holdings/user/{userId}/holding/{holdingId}
+          method: post
+          private: true
+          request:
+            parameters:
+              paths:
+                userId: true
+                holdingId: true

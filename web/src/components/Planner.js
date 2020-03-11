@@ -38,7 +38,7 @@ const _generatePlanner = async (rows) => {
         let marketValue = await getQuote(row.symbol);
         planner.push(
             <Row
-                key={id}
+                key={row.holdingId}
                 symbol={row.symbol}
                 marketValue={marketValue}
                 targetPercent={row.targetPercent}

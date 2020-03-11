@@ -46,4 +46,4 @@ const _generateUrl = (baseUrl, queryParams) => {
     return queryString.slice(0, -1);
 }
 
-module.exports = getQuote;
+export default getQuote;
