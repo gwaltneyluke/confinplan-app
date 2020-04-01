@@ -1,0 +1,18 @@
+.holdingsTableApp {
+  font-family: "Exo 2", sans-serif;
+}
+
+button {
+  border-radius: 4px;
+  color: white;
+  font-family: "Exo 2", sans-serif;
+  font-weight: bold;
+}
+
+.addButton {
+  background: green;
+}
+
+.deleteButton {
+  background: red;
+}
